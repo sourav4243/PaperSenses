@@ -29,14 +29,14 @@ const FileList = React.forwardRef(({ className, ...props }, ref) => {
   return (
     <div
       ref={ref}
-      className={cn('mt-3 flex w-full flex-col gap-2', className)}
+      className={cn('mt-3 flex w-full flex-col gap-2 overflow-y-scroll max-h-35', className)}
       {...props}>
       {fileStates.map(({ file, abortController, progress, status, key }) => {
         return (
           <div
             key={key}
             className="shadow-xs flex flex-col justify-center rounded border border-border px-4 py-3">
-            <div className="flex items-center gap-3 text-foreground">
+            <div className="flex items-center gap-3 text-foreground overflow-y-auto">
               <FileIcon className="h-8 w-8 shrink-0 text-muted-foreground" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between text-xs">

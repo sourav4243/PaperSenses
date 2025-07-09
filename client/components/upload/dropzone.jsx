@@ -1,9 +1,12 @@
 'use client';;
 import { cn } from '@/lib/utils';
-import { AlertCircleIcon, UploadCloudIcon } from 'lucide-react';
+import { AlertCircleIcon, File} from 'lucide-react';
 import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { formatFileSize, useUploader } from './uploader-provider';
+import UploadIcon from '@/public/upload.svg';
+import Image from 'next/image';
+import FileLogo from '@/public/file.svg';
 
 const DROPZONE_VARIANTS = {
   base: 'relative rounded-md p-4 w-full flex justify-center items-center flex-col cursor-pointer border-2 border-dashed border-muted-foreground transition-colors duration-200 ease-in-out',
@@ -34,7 +37,7 @@ const Dropzone = React.forwardRef((
     className,
     disabled,
     dropMessageActive = 'Drop files here...',
-    dropMessageDefault = 'drag & drop files here, or click to select',
+    dropMessageDefault = 'Drag and drop your past year exam papers',
     ...props
   },
   ref,
@@ -114,9 +117,15 @@ const Dropzone = React.forwardRef((
         <input ref={ref} {...getInputProps()} {...props} />
         <div
           className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground">
-          <UploadCloudIcon className="h-10 w-10" />
-          <div className="text-sm font-medium">
+          <Image src={UploadIcon} alt='Upload Icon' className='h-10 w-10'/>
+          <div className="text-sm font-medium text-black">
             {isDragActive ? dropMessageActive : dropMessageDefault}
+            <p className='text-muted-foreground'>or</p>
+            <div className='flex w-fit bg-blue-600 dark:bg-amber-500 text-white dark:text-black px-3.5 my-2 mx-auto py-2 rounded cursor-pointer hover:bg-blue-700'>
+              {/* <Image src={}/> */}
+              <Image src={FileLogo} alt='File logo' className='dark:invert'/>
+              Browse Files
+            </div>
           </div>
           {(!!maxSize || !!maxFiles) && (
             <div className="text-xs">
