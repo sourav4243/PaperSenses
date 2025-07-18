@@ -30,10 +30,9 @@ def greet():
 # Handling JSON data from frontend
 @app.route('/upload', method=['POST'])
 def upload():
-    data = request.get_json()  # Read JSON data
+    data = request.get_json()
     print("Recieved: ", data)
 
-    # Example: access fields
     user_id = data.get("user_id")
     file_urls = data.get("file_urls") # list of urls sent from frontend
 
