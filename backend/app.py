@@ -38,9 +38,7 @@ def upload():
 
     print("User ID: ", user_id)
     print("Files: ", file_urls)
-
-    return jsonify({"satus":"success", "message": "Data recieved!"})
-
+    return jsonify({"status":"success", "message": "Data recieved!"})
 
 
 if __name__ == '__main__':
