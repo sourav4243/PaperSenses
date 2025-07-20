@@ -18,8 +18,22 @@ export default function MultiFileDropzoneUsage() {
         onProgressChange,
       });
       // you can run some server action or api here
+
+      // Send the uploaded file url to backend
+      await fetch("http://localhost:5000/upload", {
+        method:"POST",
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          url: res.url,
+          size: res.size,
+        })
+      })
+
       // to add the necessary data to your database
-      console.log(res);
+      // console.log("File uploaded and sent to backend:",res.url);
+      // console.log(res);
       return res;
     },
     [edgestore],
@@ -33,6 +47,8 @@ export default function MultiFileDropzoneUsage() {
         accept={{
           'application/pdf': [],
           'text/plain': ['.txt'],
+          'image/jpeg': ['.jpg', '.jpeg'],
+          'image/png': ['.png'],
         }}
       />
     </UploaderProvider>

@@ -2,6 +2,8 @@ from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
 from flask import request
+import requests
+from ocr import extract_text_from_pdf
 
 app = Flask(__name__)
 # CORS(app)   # This will allow frontend origins by default
@@ -28,16 +30,16 @@ def greet():
 
 
 # Handling JSON data from frontend
-@app.route('/upload', method=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
     data = request.get_json()
-    print("Recieved: ", data)
+    # print("Recieved: ", data)
 
-    user_id = data.get("user_id")
-    file_urls = data.get("file_urls") # list of urls sent from frontend
+    url = data.get("url") # list of urls sent from frontend
+    size = data.get("size")
 
-    print("User ID: ", user_id)
-    print("Files: ", file_urls)
+    print("Url: ", url)
+    print("Size: ",size)
     return jsonify({"status":"success", "message": "Data recieved!"})
 
 

@@ -1,11 +1,11 @@
 import Upload from "@/components/Upload";
-import Navbar from "@/components/Navbar";
+import {Dropzone} from "@/components/MultiFileDropzone";
 
 export default function Home() {
   return (
     <div>
-      <Navbar/>
       <Upload/>
+      <Dropzone />
     </div>
   );
 }

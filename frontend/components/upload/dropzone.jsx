@@ -122,7 +122,6 @@ const Dropzone = React.forwardRef((
             {isDragActive ? dropMessageActive : dropMessageDefault}
             <p className='text-muted-foreground'>or</p>
             <div className='flex w-fit bg-blue-600 dark:bg-amber-500 text-white dark:text-black px-3.5 my-2 mx-auto py-2 rounded cursor-pointer hover:bg-blue-700'>
-              {/* <Image src={}/> */}
               <Image src={FileLogo} alt='File logo' className='dark:invert'/>
               Browse Files
             </div>
