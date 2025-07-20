@@ -60,7 +60,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
     ), [isDragging]);
 
   return (
-    <div className="w-full h-auto min-h-fit mb-2 z-100">
+    <div className="w-full h-full min-h-fit mb-2 z-100">
       <div
         className={dropZoneClassName}
         onClick={() => inputRef.current.click()}
@@ -77,7 +77,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
           {...ref}
         />
 
-        <div className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground">
+        <div className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground h-60">
           <Image src={UploadIcon} alt="Upload Icon" className="h-10 w-10" />
           <div className="text-sm font-medium text-black">
             {isDragging ? "Drop files here..." : "Drag and drop your past year exam papers"}
@@ -106,10 +106,10 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
 
       {files.length > 0 && (
         <div className="mt-4 space-y-2 text-left">  
-        <p className="font-semibold my-1">Uploaded files</p>
-          <div className="overflow-y-auto min-h-10 max-h-20 h-fit">
+          <p className="font-semibold my-1 dark:invert">Uploaded files</p>
+          <div className="overflow-y-auto min-h-10 max-h-35 h-fit">
             {files.map((file, idx) => (
-                <div key={idx} className="text-sm text-muted-foreground w-full bg-white dark:bg-gray-950/65 min-h-8 border rounded-sm border-gray-500/40 my-1 p-1">
+                <div key={idx} className="text-sm text-muted-foreground dark:text-gray-200 w-full bg-white dark:bg-gray-950/65 min-h-8 border rounded-sm border-gray-500/40 my-1 p-1">
                 📎 {file.name} ({formatFileSize(file.size)})
                 </div>
             ))}
