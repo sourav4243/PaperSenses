@@ -1,4 +1,3 @@
-import { EdgeStoreProvider } from '../lib/edgestore';
 import { ThemeProvider } from 'next-themes';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -26,12 +25,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <EdgeStoreProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Navbar/>
-            {children}
-          </ThemeProvider>
-        </EdgeStoreProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar/>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
