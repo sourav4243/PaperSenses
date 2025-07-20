@@ -35,7 +35,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
     processFiles(droppedFiles);
   };
 
-  const processFiles = (incomingFiles) => {
+  const processFiles = async (incomingFiles) => {
     setError(null);
 
     if (incomingFiles.length + files.length > maxFiles) {
@@ -43,14 +43,52 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
       return;
     }
 
+    const acceptedTypes = {
+      'application/pdf': [],
+      'text/plain': ['.txt'],
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/png': ['.png'],
+    };
+    
+    setFiles(prev => [...prev, ...incomingFiles]);
+
     for (let file of incomingFiles) {
+      const fileType = file.type;
+      const ext = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
+
+      if (
+        !(fileType in acceptedTypes) ||
+        (acceptedTypes[fileType].length && !acceptedTypes[fileType].includes(ext))
+      ) {
+        setError(`File type not allowed: ${file.name}`);
+        return;
+      }
       if (file.size > maxSize) {
         setError(`The file ${file.name} is too large. Max size is ${formatFileSize(maxSize)}.`);
         return;
       }
+
+      // Upload this file to backend
+      const formData = new FormData();
+      formData.append("file", file);
+      try{
+        const response = await fetch("http://localhost:5000/upload",{
+          method: "POST",
+          body: formData,
+        })
+
+        if(!response.ok){
+          throw new Error("Failed to upload "+ file.name);
+        }
+        const result = await response.json();
+        console.log("Uploaded: ", result);
+      } catch (err){
+        console.error("Upload error:", err);
+        setError(`Failed to upload ${file.name}`);
+        return;
+      }
     }
 
-    setFiles(prev => [...prev, ...incomingFiles]);
   };
 
   const dropZoneClassName = useMemo(() =>
@@ -60,7 +98,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
     ), [isDragging]);
 
   return (
-    <div className="w-full">
+    <div className="w-full h-auto min-h-fit mb-2 z-10">
       <div
         className={dropZoneClassName}
         onClick={() => inputRef.current.click()}
@@ -105,10 +143,11 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
       )}
 
       {files.length > 0 && (
-        <div className="mt-4 space-y-2 text-left h-20">
-          <div className="overflow-y-scroll h-15">
+        <div className="mt-4 space-y-2 text-left">  
+        <p className="font-semibold my-1">Uploaded files</p>
+          <div className="overflow-y-auto min-h-10 max-h-20 h-fit">
             {files.map((file, idx) => (
-                <div key={idx} className="text-sm text-muted-foreground w-full min-h-8 border rounded-sm my-2 p-1">
+                <div key={idx} className="text-sm text-muted-foreground w-full bg-white dark:bg-gray-950/65 min-h-8 border rounded-sm border-gray-500/40 my-1 p-1">
                 📎 {file.name} ({formatFileSize(file.size)})
                 </div>
             ))}

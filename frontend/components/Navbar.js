@@ -19,8 +19,8 @@ const Navbar = () => {
     };
 
     return (
-        <div className="w-full fixed">
-            <div className='w-full h-15 backdrop-blur-xs z-1000 bg-accent/30 flex fixed px-2 justify-between md:justify-evenly'>
+        <div className="w-full fixed z-1000">
+            <div className='w-full h-15 backdrop-blur-sm z-1000 bg-accent/30 flex fixed px-2 justify-between md:justify-evenly'>
                 <div className="title flex gap-2 items-center">
                     <Image src={Logo} alt='Logo' loading='eager' height={32} width={32} />
                     <h1 className='bg-gradient-to-l from-blue-800 to-blue-600 text-xl sm:text-2xl font-bold bg-clip-text text-transparent'>SmartExamAI</h1>
