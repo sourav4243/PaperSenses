@@ -35,7 +35,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
     processFiles(droppedFiles);
   };
 
-  const processFiles = async (incomingFiles) => {
+  const processFiles = (incomingFiles) => {
     setError(null);
 
     if (incomingFiles.length + files.length > maxFiles) {
@@ -43,52 +43,14 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
       return;
     }
 
-    const acceptedTypes = {
-      'application/pdf': [],
-      'text/plain': ['.txt'],
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png'],
-    };
-    
-    setFiles(prev => [...prev, ...incomingFiles]);
-
     for (let file of incomingFiles) {
-      const fileType = file.type;
-      const ext = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
-
-      if (
-        !(fileType in acceptedTypes) ||
-        (acceptedTypes[fileType].length && !acceptedTypes[fileType].includes(ext))
-      ) {
-        setError(`File type not allowed: ${file.name}`);
-        return;
-      }
       if (file.size > maxSize) {
         setError(`The file ${file.name} is too large. Max size is ${formatFileSize(maxSize)}.`);
         return;
       }
-
-      // Upload this file to backend
-      const formData = new FormData();
-      formData.append("file", file);
-      try{
-        const response = await fetch("http://localhost:5000/upload",{
-          method: "POST",
-          body: formData,
-        })
-
-        if(!response.ok){
-          throw new Error("Failed to upload "+ file.name);
-        }
-        const result = await response.json();
-        console.log("Uploaded: ", result);
-      } catch (err){
-        console.error("Upload error:", err);
-        setError(`Failed to upload ${file.name}`);
-        return;
-      }
     }
 
+    setFiles(prev => [...prev, ...incomingFiles]);
   };
 
   const dropZoneClassName = useMemo(() =>
@@ -98,7 +60,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
     ), [isDragging]);
 
   return (
-    <div className="w-full h-auto min-h-fit mb-2 z-10">
+    <div className="w-full h-auto min-h-fit mb-2 z-100">
       <div
         className={dropZoneClassName}
         onClick={() => inputRef.current.click()}

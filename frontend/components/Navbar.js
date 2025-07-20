@@ -32,7 +32,7 @@ const Navbar = () => {
                 </div>
 
                 <ul className='hidden md:flex gap-2 items-center'>
-                    <li><Link href="/" className='bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000'>Upload</Link></li>
+                    <li><Link href="/upload" className='bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000'>Upload</Link></li>
                     <li><Link href="/dashboard" className='bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000'>Dashboard</Link></li>
                     <li><Link href="/predictions" className='bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000'>Predictions</Link></li>
                 </ul>
@@ -71,7 +71,7 @@ const Navbar = () => {
                 </div>
 
                 <ul className='flex flex-col gap-2 justify-center text-muted-foreground'>
-                    <li><Link href="/" className=' font-bold py-1 px-2 rounded '>Upload</Link></li>
+                    <li><Link href="/upload" className=' font-bold py-1 px-2 rounded '>Upload</Link></li>
                     <li><Link href="/dashboard" className='font-bold py-1 px-2 rounded '>Dashboard</Link></li>
                     <li><Link href="/predictions" className=' font-bold py-1 px-2 rounded '>Predictions</Link></li>
                 </ul>
