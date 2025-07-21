@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useRef, useState, useMemo } from "react";
-import { AlertCircleIcon } from "lucide-react";
+import { AlertCircleIcon, LucideUpload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import UploadIcon from "@/public/upload.svg";
 import FileLogo from "@/public/file.svg";
 import Image from "next/image";
 
 const DROPZONE_VARIANTS = {
-  base: "relative rounded-md p-4 w-full flex justify-center items-center flex-col cursor-pointer border-2 border-dashed border-muted-foreground transition-colors duration-200 ease-in-out",
+  base: "relative rounded-md p-4 w-full flex justify-center items-center flex-col cursor-pointer border-2 border-dashed border-blue-500/50 dark:border-amber-300/40 ease-in-out",
   active: "border-primary",
   disabled:
     "bg-muted border-muted-foreground cursor-default pointer-events-none opacity-50",
@@ -78,7 +78,8 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
         />
 
         <div className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground h-60">
-          <Image src={UploadIcon} alt="Upload Icon" className="h-10 w-10" />
+          {/* <Image src={UploadIcon} alt="Upload Icon" className="h-10 w-10" /> */}
+          <LucideUpload className="h-10 w-10 text-blue-800 dark:text-amber-500" />
           <div className="text-sm font-medium text-black">
             {isDragging ? "Drop files here..." : "Drag and drop your past year exam papers"}
             <p className="text-muted-foreground">or</p>

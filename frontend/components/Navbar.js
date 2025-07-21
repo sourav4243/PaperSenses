@@ -35,9 +35,9 @@ const Navbar = () => {
                 </div>
 
                 <ul className='hidden md:flex gap-2 items-center'>
-                    <li><Link href="/upload" onClick={() => setActiveTab('upload')} className={`${activeTab === 'upload' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000' : 'py-1 px-4 rounded hover:bg-gradient-to-r transition-all'}`}>Upload</Link></li>
-                    <li><Link href="/dashboard" onClick={() => setActiveTab('dashboard')} className={`${activeTab === 'dashboard' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000' : 'py-1 px-4 rounded hover:bg-gradient-to-r transition-all'}`}>Dashboard</Link></li>
-                    <li><Link href="/predictions" onClick={() => setActiveTab('predictions')} className={`${activeTab === 'predictions' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000' : 'py-1 px-4 rounded hover:bg-gradient-to-r transition-all'}`}>Predictions</Link></li>
+                    <li><Link href="/upload" onClick={() => setActiveTab('upload')} className={`${activeTab === 'upload' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-2 px-4 rounded' : 'py-2 px-4 rounded hover:bg-blue-600/10'}`}>Upload</Link></li>
+                    <li><Link href="/dashboard" onClick={() => setActiveTab('dashboard')} className={`${activeTab === 'dashboard' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-2 px-4 rounded' : 'py-2 px-4 rounded hover:bg-blue-600/10'}`}>Dashboard</Link></li>
+                    <li><Link href="/predictions" onClick={() => setActiveTab('predictions')} className={`${activeTab === 'predictions' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-2 px-4 rounded' : 'py-2 px-4 rounded hover:bg-blue-600/10'}`}>Predictions</Link></li>
                 </ul>
 
                 <div className="hidden md:flex items-center gap-2">
@@ -73,10 +73,10 @@ const Navbar = () => {
                     </Avatar>
                 </div>
 
-                <ul className='flex flex-col gap-2 justify-center text-muted-foreground'>
-                    <li><Link href="/upload" onClick={() => setActiveTab('upload')} className={`${activeTab === 'upload' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000' : 'py-1 px-4 rounded hover:bg-gradient-to-r transition-all'}`}>Upload</Link></li>
-                    <li><Link href="/dashboard" onClick={() => setActiveTab('dashboard')} className={`${activeTab === 'dashboard' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000' : 'py-1 px-4 rounded hover:bg-gradient-to-r transition-all'}`}>Dashboard</Link></li>
-                    <li><Link href="/predictions" onClick={() => setActiveTab('predictions')} className={`${activeTab === 'predictions' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-1 px-4 rounded hover:bg-gradient-to-r transition-all duration-1000' : 'py-1 px-4 rounded hover:bg-gradient-to-r transition-all'}`}>Predictions</Link></li>
+                <ul className='flex flex-col justify-center text-muted-foreground gap-1'>
+                    <li className='w-full flex justify-center'><Link href="/upload" onClick={() => setActiveTab('upload')} className={`${activeTab === 'upload' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-0.5 rounded' : 'py-0.5 rounded hover:bg-blue-600/10'} w-full px-2`}>Upload</Link></li>
+                    <li className='w-full flex justify-center'><Link href="/dashboard" onClick={() => setActiveTab('dashboard')} className={`${activeTab === 'dashboard' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-0.5 rounded' : 'py-0.5 rounded hover:bg-blue-600/10'} w-full px-2`}>Dashboard</Link></li>
+                    <li className='w-full flex justify-center'><Link href="/predictions" onClick={() => setActiveTab('predictions')} className={`${activeTab === 'predictions' ? 'bg-gradient-to-l from-blue-800 to-blue-600 text-white py-0.5 rounded' : 'py-0.5 rounded hover:bg-blue-600/10'} w-full px-2`}>Predictions</Link></li>
                 </ul>
                 <div className="mt-2 px-2 flex items-center gap-2">
                     <div className='flex items-center gap-1'>   

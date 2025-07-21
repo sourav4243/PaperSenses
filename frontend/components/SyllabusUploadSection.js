@@ -14,10 +14,10 @@ export default function SyllabusUploadSection() {
   };
 
   return (
-    <div className="rounded-xl shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 p-6 space-y-4">
+    <div className="rounded-xl shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 p-3 space-y-4">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-xl font-semibold text-green-700 dark:text-green-300">
+        <div className="flex items-center gap-2 text-2xl font-medium text-green-700 dark:text-green-300">
           <FileText className="h-5 w-5" />
           <span>Add Your Syllabus</span>
         </div>
@@ -28,23 +28,23 @@ export default function SyllabusUploadSection() {
 
       {/* Tabs */}
       <div className="space-y-4">
-        <div className="grid grid-cols-2 rounded-lg overflow-hidden border border-green-300 dark:border-green-700">
+        <div className="grid grid-cols-2 rounded-lg overflow-hidden border border-green-300 dark:border-green-700 bg-white dark:bg-[#101828]">
           <button
             onClick={() => setActiveTab("paste")}
-            className={`py-2 text-sm font-medium ${
+            className={`py-2 m-1 rounded-md text-sm font-medium ${
               activeTab === "paste"
                 ? "bg-green-600 text-white"
-                : "bg-white dark:bg-transparent text-green-600 dark:text-green-400"
+                : "text-green-600 dark:text-green-400"
             }`}
           >
             Paste Text
           </button>
           <button
             onClick={() => setActiveTab("upload")}
-            className={`py-2 text-sm font-medium ${
+            className={`py-2 m-1 rounded-md text-sm font-medium ${
               activeTab === "upload"
                 ? "bg-green-600 text-white"
-                : "bg-white dark:bg-transparent text-green-600 dark:text-green-400"
+                : "text-green-600 dark:text-green-400"
             }`}
           >
             Upload File
