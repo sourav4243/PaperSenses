@@ -1,20 +1,54 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { FileText, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function SyllabusUploadSection() {
   const [syllabusText, setSyllabusText] = useState("");
   const [syllabusUploaded, setSyllabusUploaded] = useState(false);
   const [activeTab, setActiveTab] = useState("paste");
+  const inputRef = useRef(null);
 
-  const handleSyllabusSubmit = () => {
+  const handleSyllabusSubmit = async () => {
     if (syllabusText.trim()) {
       setSyllabusUploaded(true);
-      alert("Syllabus saved!");
+    }
+    try{
+      const response = await fetch("http://localhost:5000/syllabus-text", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({syllabusText}),
+      })
+      const result = await response.json();
+      console.log("Backend Response: ", result)
+    } catch (error){
+      console.error("Error sending text:",error);
     }
   };
 
+  const processFile = async (incomingFiles) =>{
+    const file = incomingFiles[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    try{
+      const response = await fetch("http://localhost:5000/syllabus",{
+        method: "POST",
+        body: formData,
+      })
+      if(!response.ok){
+        throw new Error("Failed to upload "+file.name)
+      }
+      const result = await response.json();
+      console.log("Uploaded: ", result);
+    } catch(err){
+      console.error("Upload error:", err);
+      return;
+    }
+
+  }
+
   return (
-    <div className="rounded-xl shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 p-3 space-y-4">
+    <div className="rounded-xl h-full shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 p-3 space-y-4">
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 text-2xl font-medium text-green-700 dark:text-green-300">
@@ -58,7 +92,7 @@ export default function SyllabusUploadSection() {
               value={syllabusText}
               onChange={(e) => setSyllabusText(e.target.value)}
               placeholder={`Unit 1 – Process Management\nUnit 2 – Memory Management\nUnit 3 – File System\nUnit 4 – I/O Management\nUnit 5 – Security`}
-              className="w-full min-h-30 p-3 border border-gray-300 dark:border-gray-700 rounded-lg resize-none bg-white dark:bg-gray-900 text-sm"
+              className="w-full min-h-32 p-3 border border-gray-300 dark:border-gray-700 rounded-lg resize-none bg-white dark:bg-gray-900 text-sm"
             />
             <button
               onClick={handleSyllabusSubmit}
@@ -79,18 +113,19 @@ export default function SyllabusUploadSection() {
           <div className="space-y-4">
             <div className="border-2 border-dashed border-green-300 dark:border-green-700 rounded-lg p-6 text-center">
               <FileText className="h-8 w-8 text-green-500 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Upload PDF or DOCX file
+              <p className="text-sm text-black dark:text-white font-semibold">
+                Upload PDF or Image
               </p>
               <input
+              ref = {inputRef}
                 type="file"
-                accept=".pdf,.docx"
+                accept=".pdf, .txt, .png, .jpg, .jpeg"
                 className="hidden"
                 id="syllabusUpload"
                 onChange={(e) => {
+                  processFile(Array.from(e.target.files))
                   if (e.target.files?.[0]) {
                     setSyllabusUploaded(true);
-                    alert("Syllabus uploaded and processed!");
                   }
                 }}
               />

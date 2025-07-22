@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useRef, useState, useMemo } from "react";
-import { AlertCircleIcon, LucideUpload } from "lucide-react";
+import { AlertCircleIcon, LucideUpload , Loader2, CheckCircle} from "lucide-react";
 import { cn } from "@/lib/utils";
-import UploadIcon from "@/public/upload.svg";
 import FileLogo from "@/public/file.svg";
 import Image from "next/image";
 
@@ -22,11 +21,14 @@ function formatFileSize(size) {
   return `${(kb / 1024).toFixed(1)} MB`;
 }
 
+
 export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 * 10 }, ref) => {
   const inputRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [fileStatus, setFileStatus] = useState([]);
+
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
     processFiles(droppedFiles);
   };
 
-  const processFiles = (incomingFiles) => {
+ const processFiles = async (incomingFiles) => {
     setError(null);
 
     if (incomingFiles.length + files.length > maxFiles) {
@@ -43,14 +45,63 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
       return;
     }
 
+    const acceptedTypes = {
+      'application/pdf': [],
+      'text/plain': ['.txt'],
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/png': ['.png'],
+    };
+    
+
     for (let file of incomingFiles) {
+
+      const fileType = file.type;
+      const ext = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
+
+      if (
+        !(fileType in acceptedTypes) ||
+        (acceptedTypes[fileType].length && !acceptedTypes[fileType].includes(ext))
+      ) {
+        setError(`File type not allowed: ${file.name}`);
+        return;
+      }
       if (file.size > maxSize) {
         setError(`The file ${file.name} is too large. Max size is ${formatFileSize(maxSize)}.`);
         return;
       }
+      // List this current file at frontent
+      setFiles(prev => [...prev, file]);
+      setFileStatus(prev => [...prev, { loading: true, uploaded: false }]);
+
+      // Upload this file to backend
+      const formData = new FormData();
+      formData.append("file", file);
+      try{
+        const response = await fetch("http://localhost:5000/upload",{
+          method: "POST",
+          body: formData,
+        })
+
+        if(!response.ok){
+          throw new Error("Failed to upload "+ file.name);
+        }
+        const result = await response.json();
+        if(result){
+          // After successful upload
+          setFileStatus(prev => {
+            const newStatus = [...prev];
+            newStatus[newStatus.length - 1] = { loading: false, uploaded: true };
+            return newStatus;
+          });
+        }
+        console.log("Uploaded: ", result);
+      } catch (err){
+        console.error("Upload error:", err);
+        setError(`Failed to upload ${file.name}`);
+        return;
+      }
     }
 
-    setFiles(prev => [...prev, ...incomingFiles]);
   };
 
   const dropZoneClassName = useMemo(() =>
@@ -110,8 +161,12 @@ export const Dropzone = React.forwardRef(({ maxFiles = 5, maxSize = 1024 * 1024 
           <p className="font-semibold my-1 dark:invert">Uploaded files</p>
           <div className="overflow-y-auto min-h-10 max-h-35 h-fit">
             {files.map((file, idx) => (
-                <div key={idx} className="text-sm text-muted-foreground dark:text-gray-200 w-full bg-white dark:bg-gray-950/65 min-h-8 border rounded-sm border-gray-500/40 my-1 p-1">
-                📎 {file.name} ({formatFileSize(file.size)})
+                <div key={idx} className="flex items-center justify-between gap-1 text-sm text-muted-foreground dark:text-gray-200 w-full bg-white dark:bg-gray-950/65 min-h-8 border rounded-sm border-gray-500/40 my-1 p-1">
+                  📎 {file.name} ({formatFileSize(file.size)})
+                  <div className="flex mr-3">
+                    {fileStatus[idx]?.loading && <Loader2 className="animate-spin w-6 h-6" />}
+                    {fileStatus[idx]?.uploaded && <CheckCircle className="text-green-600 w-6 h-6 dark:text-fuchsia-400" />}
+                  </div>
                 </div>
             ))}
           </div>

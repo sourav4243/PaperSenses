@@ -32,7 +32,7 @@ export default function Upload() {
             <Dropzone/>
           </div>
         </div>
-        <div className="card space-y-0 w-[90vw] sm:w-[70vw] md:w-[45vw] lg:w-[40vw] h-fit bg-green-300/60 dark:bg-green-300 rounded-xl">
+        <div className="card space-y-0 w-[90vw] sm:w-[70vw] md:w-[45vw] lg:w-[40vw] h-full bg-green-300/60 dark:bg-green-300 rounded-xl">
           <SyllabusUploadSection/>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function Upload() {
           disabled={!canAnalyze}
           className={`px-6 py-4 text-lg font-semibold transition-all duration-300 rounded-xl flex text-white items-center ${
             canAnalyze 
-              ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl" 
+              ? "bg-gradient-to-l from-blue-800 to-blue-600 hover:bg-gradient-to-r shadow-lg hover:shadow-xl active:scale-95" 
               : "bg-gray-300 cursor-not-allowed"
           }`}
         >

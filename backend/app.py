@@ -31,6 +31,7 @@ def greet():
 
 # In-memory store for extracted text
 extracted_texts = []
+extracted_syllabus =""
 
 # Handling JSON data from frontend
 @app.route('/upload', methods=['POST'])
@@ -63,6 +64,31 @@ def upload():
     })
     print("Extracted text: ", extracted_texts)
     return jsonify({"message":f"{filename} uploaded successfully"})
+
+@app.route('/syllabus', methods=['POST'])
+def syllbus():
+    if "file" not in request.files:
+        return jsonify({"error", "No file part in request"})
+    
+    file = request.files['file']
+    if file.filename == "":
+        return jsonify({"error","No selected file"}), 400
+    
+    filename = secure_filename(file.filename)
+    file_content = file.read()
+    text = extract_text_from_file(file, filename, file_content)
+    extracted_syllabus = text
+    print("Extracted Syllabus: ", extracted_syllabus)
+    return jsonify({"message":"syllabus uplaoded successfully"})
+
+@app.route("/syllabus-text", methods=["POST"])
+def syllabusText():
+    data = request.get_json()
+    text = data.get("syllabusText")
+    print("Recieved text:", text)
+    extracted_syllabus = text
+    print("Recieved text:\n", extracted_syllabus)
+    return jsonify({"message":"syllabus text sent successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)
