@@ -2,7 +2,6 @@ from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
 from flask import request
-import requests
 from ocr import extract_text_from_file
 from werkzeug.utils import secure_filename
 
